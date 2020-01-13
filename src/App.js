@@ -24,15 +24,25 @@ const SButton = styled.button`
   flex-basis: 0;
   font-size: 2rem;
   font-weight: bold;
+  outline: none;
+  background-color: #444230;
+  color: #ff8111;
+  border: none;
+  transition: box-shadow .2s;
+  
+  :hover {
+    box-shadow: inset 2px 2px 6px rgba(0,0,0,0.25);
+  }
 `;
 
 const SInput = styled.input`
   font-size: 2rem;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-grow: 1;
-  flex-basis: 0;
+  background-color: #444230;
+  color: #fff;
+  border: none;
+  outline: none;
+  padding: 1rem;
+  width: 100%;
 `;
 
 const App = () => {

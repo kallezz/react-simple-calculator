@@ -58,12 +58,18 @@ const App = () => {
 
   const handleClear = () => {
     setCurValue("");
-  };
-
-  const handleClearEverything = () => {
-    setCurValue("");
     setCalcValue([]);
     setIsAns(false);
+  };
+
+  const handleClearEntry = () => {
+    if (!isAns) {
+      setCurValue("");
+    } else {
+      setCurValue("");
+      setCalcValue([]);
+      setIsAns(false);
+    }
   };
 
   const handleBackspace = () => {
@@ -96,6 +102,7 @@ const App = () => {
     }
   };
 
+  // TODO: Disable calc without operator.
   const handleCalc = () => {
     let calcStr = calcValue.join('') + curValue;
     setCalcValue([...calcValue, curValue]);
@@ -113,7 +120,7 @@ const App = () => {
         <SButton onClick={handleClear}>
           C
         </SButton>
-        <SButton onClick={handleClearEverything}>
+        <SButton onClick={handleClearEntry}>
           CE
         </SButton>
         <SButton onClick={handleBackspace}>

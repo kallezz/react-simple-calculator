@@ -44,6 +44,14 @@ const App = () => {
     setCurValue(e.target.value);
   };
 
+  const handleDecimal = e => {
+    if (curValue.includes(".") || curValue === "") {
+      return;
+    } else {
+      setCurValue(curValue + e.target.value);
+    }
+  };
+
   const handleNumInput = e => {
     setCurValue(curValue + e.target.value);
   };
@@ -69,6 +77,21 @@ const App = () => {
       setCalcValue([curValue, e.target.value]);
       setCurValue("");
       setIsAns(false);
+    }
+  };
+
+  const handleMinus = e => {
+    if (curValue === "") {
+      setCurValue("-")
+    } else {
+      if (!isAns) {
+        setCalcValue([...calcValue, curValue, e.target.value]);
+        setCurValue("");
+      } else {
+        setCalcValue([curValue, e.target.value]);
+        setCurValue("");
+        setIsAns(false);
+      }
     }
   };
 
@@ -123,7 +146,7 @@ const App = () => {
         <SButton value="6" onClick={handleNumInput}>
           6
         </SButton>
-        <SButton onClick={handleOperator} value="-">
+        <SButton onClick={handleMinus} value="-">
           -
         </SButton>
       </SWrapper>
@@ -142,7 +165,7 @@ const App = () => {
         </SButton>
       </SWrapper>
       <SWrapper>
-        <SButton value="." onClick={handleNumInput}>
+        <SButton value="." onClick={handleDecimal}>
           .
         </SButton>
         <SButton value="0" onClick={handleNumInput}>

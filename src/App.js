@@ -12,7 +12,8 @@ const AppWrapper = styled.div`
 
 const SWrapper = styled.div`
   display: flex;
-  width: 30vw;
+  max-width: 400px;
+  width: 100%;
 `;
 
 const SButton = styled.button`
@@ -28,6 +29,7 @@ const SButton = styled.button`
   background-color: #444230;
   color: #ff8111;
   border: none;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.25);
   transition: box-shadow .2s;
   
   :hover {
@@ -43,6 +45,11 @@ const SInput = styled.input`
   outline: none;
   padding: 1rem;
   width: 100%;
+  
+  :hover,
+  :focus {
+    box-shadow: inset 2px 2px 6px rgba(0,0,0,0.25);
+  }
 `;
 
 const App = () => {
@@ -53,6 +60,10 @@ const App = () => {
   const handleValue = e => {
     setCurValue(e.target.value);
   };
+
+  // const handleKeys = e => {
+  //   TODO
+  // };
 
   const handleDecimal = e => {
     if (curValue.includes(".") || curValue === "") {
@@ -112,20 +123,21 @@ const App = () => {
     }
   };
 
-  // TODO: Disable calc without operator.
+  // TODO: ERROR HANDLING.
   const handleCalc = () => {
     let calcStr = calcValue.join('') + curValue;
     setCalcValue([...calcValue, curValue]);
-    console.log(calcStr);
     setCurValue(eval(calcStr).toString());
     setIsAns(true);
   };
 
   return (
     <AppWrapper className="App">
+      {/* Screen */}
       <SWrapper>
-        <SInput autoFocus onChange={handleValue} value={curValue} />
+        <SInput readOnly onChange={handleValue} value={curValue} />
       </SWrapper>
+      {/* Numbers & operators */}
       <SWrapper>
         <SButton onClick={handleClear}>
           C

@@ -63,6 +63,7 @@ const App = () => {
   const handleClearEverything = () => {
     setCurValue("");
     setCalcValue([]);
+    setIsAns(false);
   };
 
   const handleBackspace = () => {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './App.css';
 import styled from "styled-components";
 
@@ -61,9 +61,123 @@ const App = () => {
     setCurValue(e.target.value);
   };
 
-  // const handleKeys = e => {
-  //   TODO
-  // };
+  const useEventListener = (eventName, handler, element = window) => {
+    const savedHandler = useRef();
+
+    useEffect(() => {
+      savedHandler.current = handler;
+    }, [handler])
+
+    useEffect(() => {
+      const isSupported = element && element.addEventListener;
+      if (!isSupported) return;
+
+      const eventListener = event => savedHandler.current(event);
+      element.addEventListener(eventName, eventListener)
+
+      return () => {
+        element.removeEventListener(eventName, eventListener)
+      }
+    }, [eventName, element])
+  };
+
+  const handleKeys = ({key}) => {
+    switch (key) {
+      case "1":
+        handleKeyValues("1");
+        break;
+      case "2":
+        handleKeyValues("2");
+        break;
+      case "3":
+        handleKeyValues("3");
+        break;
+      case "4":
+        handleKeyValues("4");
+        break;
+      case "5":
+        handleKeyValues("5");
+        break;
+      case "6":
+        handleKeyValues("6");
+        break;
+      case "7":
+        handleKeyValues("7");
+        break;
+      case "8":
+        handleKeyValues("8");
+        break;
+      case "9":
+        handleKeyValues("9");
+        break;
+      case "0":
+        handleKeyValues("0");
+        break;
+      case "Backspace":
+        handleBackspace();
+        break;
+      case "Enter":
+        handleCalc();
+        break;
+      case "+":
+        handleKeyOperator("+");
+        break;
+      case "-":
+        handleKeyMinus("-");
+        break;
+      case "*":
+        handleKeyOperator("*");
+        break;
+      case "/":
+        handleKeyOperator("/");
+        break;
+      case ",":
+        handleKeyDecimal();
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleKeyValues = value => {
+    setCurValue(curValue + value);
+  };
+
+  const handleKeyOperator = operator => {
+    if (!isAns) {
+      setCalcValue([...calcValue, curValue, operator]);
+      setCurValue("");
+    } else {
+      setCalcValue([curValue, operator]);
+      setCurValue("");
+      setIsAns(false);
+    }
+  };
+
+  const handleKeyMinus = operator => {
+    if (curValue === "") {
+      setCurValue("-")
+    } else {
+      if (!isAns) {
+        setCalcValue([...calcValue, curValue, operator]);
+        setCurValue("");
+      } else {
+        setCalcValue([curValue, operator]);
+        setCurValue("");
+        setIsAns(false);
+      }
+    }
+  };
+
+  const handleKeyDecimal = () => {
+    if (curValue.includes(".") || curValue === "") {
+      return;
+    } else {
+      setCurValue(curValue + ".");
+    }
+  };
+
+  useEventListener('keydown', handleKeys);
 
   const handleDecimal = e => {
     if (curValue.includes(".") || curValue === "") {
@@ -124,6 +238,7 @@ const App = () => {
   };
 
   // TODO: ERROR HANDLING.
+  // TODO: FIX DIVISION.
   const handleCalc = () => {
     let calcStr = calcValue.join('') + curValue;
     setCalcValue([...calcValue, curValue]);
